@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.js"> </script>
+    </head>
+    <body ng-app="myapp" ng-controller="mycontroller">
+        <label for="first">Enter the number 1: </label>
+        <input type="number" name="first" id="first" ng-model="first">
+        <label for="second">Enter the number 2:</label> 
+        <input type="number" name="second" id="second" ng-model="second">
+        <select ng-model="operator">
+            <option value="add">+</option>
+            <option value="subtract">-</option>
+            <option value="multiply">*</option>
+            <option value="Division">/</option>
+        </select>
+        <input type="submit" ng-click="calculate()">
+        <p> Output: {{result}} </p>
+
+        <script>
+            var app=angular.module('myapp',[]);
+            app.controller('mycontroller',function($scope){
+                $scope.calculate=function(){
+                    switch($scope.operator){
+                        case 'add': { 
+                            $scope.result=$scope.first+$scope.second;
+                            break;
+                        }
+                        case 'subtract': { 
+                            $scope.result=$scope.first-$scope.second;
+                            break;
+                        }
+                        case 'multiply': { 
+                            $scope.result=$scope.first*$scope.second;
+                            break;
+                        }
+                        case 'divide': { 
+                            $scope.result=$scope.first/$scope.second;
+                            break;
+                        }
+                    }
+                };             
+            });
+        </script>
+    </body>
+</html>
