@@ -1,0 +1,119 @@
+<script>
+    var emiApp = angular.module("emiApp", []);
+
+emiApp.controller("EMIController", function($scope, $http){
+
+        $scope.loanAmount = 1;
+        $scope.interestRate = 1;
+        $scope.loanTenure = 1;
+        $scope.EMI=0.0; 
+        $scope.ishidden= !true;       
+
+    //this function contains the EMI logic
+    $scope.calculateEMI = function(){
+
+        var loanamt = $scope.loanAmount;        
+        var intrest=$scope.interestRate;
+        var repaytrm=$scope.loanTenure;
+
+        //EMI calculation logic         
+        var rate1 = (parseFloat(intrest)/100)/12;
+        var rate = 1+rate1;
+        var interestRate = Math.pow(rate,repaytrm);
+        var E1 = loanamt*rate1*interestRate;
+        var E2 = interestRate-1;
+        var EMI = (E1/E2);      
+        var total_payable=EMI*repaytrm;
+        var total_interest=(total_payable-loanamt);
+
+        //Values to display
+        $scope.EMI=display2Decimals(EMI); 
+        $scope.interestPayable = display2Decimals(total_interest);
+        $scope.totalPayable=display2Decimals(total_payable);
+        $scope.ishidden=!false; } //end function calculateEMI
+
+    //this function resets the values to their default
+    $scope.reset = function(){
+
+                $scope.loanAmount = 1;
+                $scope.interestRate = 1;
+                $scope.loanTenure = 1;
+                $scope.EMI=0.0;
+                $scope.interestPayable=0.0;
+                $scope.totalPayable=0.0;
+                $scope.ishidden=!true; } // end function reset
+
+}); //end controller
+</script>
+
+<!DOCTYPE html>
+<html>
+        <head>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+          <title>EMI Calculator</title> 
+                <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">           
+                <script data-require="angular.js@1.4.0-beta.6" data-semver="1.4.0-beta.6" src="https://code.angularjs.org/1.4.0-beta.6/angular.js"></script>   
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+                <script src="js/utility.js"></script>     
+        </head>
+
+        <body ng-app="emiApp" ng-controller="EMIController">
+                <div><h2><font color="blue"><u>EMI Calculator</u></font></h2> </div>
+                <table border="1">
+                        <tr>
+                                <td bgcolor="D1D39B">
+                                        <table>
+                                                        <tr>
+                                                                <td colspan="3">
+                                                                        <font color="blue" size="4">Let us understand the financial needs</font>
+                                                                </td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Loan Amount:</td>                                                                           
+                                                        <td><div ng-model="loanAmount" style="width:200px;"></div></td>
+                                                        <td><input type= "text" ng-model="loanAmount" id="txtLoanAmount">  ?</td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td>Interest Rate</td>
+                                                        <td><div ng-model="interestRate" style="width:200px;"></div></td>
+                                                        <td><input type= "text" ng-model="interestRate" id="txtIR">  %</td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Loan Tenure(months):</td>
+                                                        <td><div ng-model="loanTenure" style="width:200px;"></div></td>
+                                                        <td><input type= "text" ng-model="loanTenure" id="txtLT">  Months</td>
+                                                </tr>
+                                                <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                        <td>
+                                                                <input type="button" id="btnCalculate" value="Calculate" class="button blueButton" ng-click="calculateEMI()"/>
+                                                                <input type="button" id="btnReset" value="Reset" class="button grayButton" ng-click="reset()"/>
+                                                        </td>
+                                                        </tr>
+                                        </table>
+                                </td>
+                                <td ng-show="ishidden" bgcolor="9BD3BD">
+                                        <table>
+                                                <tr>
+                                                        <td colspan="3"><font color="blue" size="4">An indicative amount to pay</font></td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Monthly Payment (EMI)</td>
+                                                        <td>?<input type="text" id="txtEMI" value="{{EMI}}"></td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Total Interest Payable</td>
+                                                        <td>?<input type="text" id="txtIP" value="{{interestPayable}}"></td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Total Payment(Principal + Interest)</td>
+                                                        <td>?<input type="text" id="txtTP" value="{{totalPayable}}"></td>
+                                                </tr>                                           
+                                        </table>
+                                </td>
+                        </tr>
+                </table>                         
+        </body>
+</html>
