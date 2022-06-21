@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>filer</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.js"> </script>
+    </head>
+    <body ng-app="myapp" ng-controller="mycontroller">
+        <label >Enter the search variable: </label>
+        <input type="text" ng-model="check">
+        <ul>
+            {{$scope.names}}
+            <li ng-repeat = "x in names|filter:check">
+                {{x}}
+            </li>
+            
+        </ul>
+        <script>
+            var app=angular.module('myapp',[]);
+            app.controller('mycontroller',function($scope){
+                $scope.names=['abc','xyz','abcjh','mno','pqr','tuv'];
+            });
+        </script>
+    </body>
+</html>
