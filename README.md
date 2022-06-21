@@ -6,3 +6,5 @@
 https://stackoverflow.com/questions/16251420/couldnt-load-template-using-templateurl-in-angularjs
 5) Switch between layouts using angular switch
 6) Text editor using angularJS
+7) Video player using angularJS without <video> tag
+ 
