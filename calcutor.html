@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>simple calc</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.js"> </script>
+    </head>
+    <body ng-app="myapp" ng-controller="mycontroller">
+        <label for="first">Enter the number 1: </label>
+        <input type="number" name="first" id="first" ng-model="first">
+        <label for="second">Enter the number 2:</label> 
+        <input type="number" name="second" id="second" ng-model="second">
+        <select ng-model="operator">
+            <option value="add">+</option>
+            <option value="subtract">-</option>
+            <option value="multiply">*</option>
+            <option value="Division">/</option>
+        </select>
+        <input type="submit" ng-click="calculate()">
+        <p> Output: {{result}} </p>
+        <hello>sdsdsd</hello>
+        <script>
+            var app=angular.module('myapp',[]);
+            app.service('calcservice',function(){
+                this.add=function(val1,val2){
+                    return parseInt(val1)+parseInt(val2);
+                };                
+            });
+
+            app.controller('mycontroller',function($scope,calcservice){
+                $scope.calculate=function(){
+                    switch($scope.operator){
+                        case 'add':{
+                            $scope.result= calcservice.add($scope.first,$scope.second);
+                            break;
+                        }
+                    }
+                };
+            });
+
+            app.component('hello',{
+                template: '<div ng-transclude></div> Hello inside new component  ',
+                transclude: true
+            });
+        </script>
+    </body>
+</html>
